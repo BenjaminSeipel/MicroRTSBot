@@ -67,7 +67,7 @@ public class Predator extends AIWithComputationBudget {
                     {
                     switch(type.name){
                             case "Base":
-                                // 3 is just an index
+                                // 3 is just an index, should be replaced
                                UnitAction unitAction = actionsOfSelectedUnit.get(3);
                                 break;
                             case "Barracks":
