@@ -65,7 +65,7 @@ public class Predator extends AIWithComputationBudget {
                     List<UnitAction>  actionsOfSelectedUnit = selectedUnitWithActions.m_b;
                     UnitType type = selectedUnit.getType();
                     {
-                        switch(type.name){
+                    switch(type.name){
                             case "Base":
                                 // 3 is just an index
                                UnitAction unitAction = actionsOfSelectedUnit.get(3);
@@ -85,7 +85,6 @@ public class Predator extends AIWithComputationBudget {
                 }
 
                 Unit base = unitChoices.get(0).m_a;
-
                 UnitAction unitAction = unitChoices.get(0).m_b.get(3);
 
                 ResourceUsage r2 = unitAction.resourceUsage(base, pgs);
