@@ -93,28 +93,7 @@ public class Predator extends AIWithComputationBudget {
 
                     pa.getResourceUsage().merge(r2);
                     pa.addUnitAction(base, unitAction);
-                    /*
-                    switch(positionOfUnit){
-                        case 238:
-                            if(counter ==0) {
-                                pa.addUnitAction(worker, unitAction);
-                                counter++;
-                            }else {
-                                pa.addUnitAction(worker, unitAction2);
-                                counter--;
-                            }
-                            break;
-                        case 222:
-                            if(counter1==0){
-                                pa.addUnitAction(worker, unitAction4);
-                                counter1++;
-                            }else{
-                                pa.addUnitAction(worker, unitAction3);
-                                counter1--;
-                            }
-                            break;
-                    }
-                    */
+
                     consistent = true;
                 }
 
@@ -122,9 +101,6 @@ public class Predator extends AIWithComputationBudget {
 
             return pa;
         }catch(Exception e) {
-            // The only way the player action generator returns an exception is if there are no units that
-            // can execute actions, in this case, just return an empty action:
-            // However, this should never happen, since we are checking for this at the beginning
             return new PlayerAction();
         }
     }
