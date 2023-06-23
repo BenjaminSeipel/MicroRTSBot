@@ -1,32 +1,37 @@
 import rts.PhysicalGameState;
-import rts.Player;
 import rts.UnitAction;
 import rts.units.Unit;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class Base {
-    private int MAXIMUM_WORKERS = 4;
-    private Unit unit;
-    private List<UnitAction> actions;
-    private PhysicalGameState pgs;
-    private int player;
+public class Base extends BaseForUnits{
     public Base(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player){
-        this.pgs = pgs;
-        this.unit = unit;
-        this.actions = actions;
-        this.player = player;
+        super(unit, actions, pgs, player);
     }
 
     public UnitAction getNextUnitAction() {
         Iterator iter = this.actions.iterator();
         UnitAction action = null;
         int currentAmountOfWorkers =  this.getAmountOfWorkers();
+        int currentAmountOfWorkersInRessourceZone =  this.getAmountOfWorkersInRessourceZone();
 
         if(MAXIMUM_WORKERS> currentAmountOfWorkers){
-            action = (UnitAction) iter.next();
-            return action;
+            if(MAXIMUM_WORKES_IN_RESSOURCE_ZONE>currentAmountOfWorkersInRessourceZone) {
+                action = (UnitAction) iter.next();
+                return action;
+            }else{
+                while(iter.hasNext()){
+                    action = (UnitAction) iter.next();
+                    if(this.player==0){
+
+                    }else {
+                        if(!this.getProduceOutsideOfResourceZone().isEmpty()){
+                            return this.getProduceOutsideOfResourceZone().get(0);
+                        }
+                    }
+                }
+            }
         }else{
             while(iter.hasNext()){
                 action = (UnitAction) iter.next();
@@ -51,6 +56,25 @@ public class Base {
         }
         return counter;
     }
+    public int getAmountOfWorkersInRessourceZone(){
+        List<Unit> allUnitsInGame = this.pgs.getUnits();
+        Iterator iter = allUnitsInGame.iterator();
+        int counter = 0;
+        Unit unit;
+        while(iter.hasNext()){
+            unit =(Unit) iter.next();
+            Worker w = new Worker(unit, this.actions, this.pgs,this.player);
+            if(unit.getPlayer() == this.player && unit.getType().name=="Worker" && w.isUnitInRessurceZone()){
+                counter++;
+            }
+        }
+        return counter;
+    }
+    public List<UnitAction> getProduceOutsideOfResourceZone(){
 
+        return (this.actions.stream()
+                .filter(action -> (action.getType()==UnitAction.TYPE_PRODUCE && (action.getDirection()==UnitAction.DIRECTION_UP || action.getDirection()==UnitAction.DIRECTION_LEFT)))
+                .toList());
+    }
 
 }

@@ -75,6 +75,8 @@ public class Predator extends AIWithComputationBudget {
                             case "Barracks":
                                 break;
                             case "Worker":
+                                Worker worker = new Worker(selectedUnit,actionsOfSelectedUnit, pgs, player);
+                                unitAction = worker.getNextUnitAction();
                                 break;
                             case "Light":
                                 break;
