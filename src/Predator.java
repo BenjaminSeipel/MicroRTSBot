@@ -20,6 +20,7 @@ public class Predator extends AIWithComputationBudget {
     public Predator(UnitTypeTable utt) {
 
         super(100, 100);
+        //fa
 
         m_utt = utt;
 
@@ -56,19 +57,20 @@ public class Predator extends AIWithComputationBudget {
 
             // Gets all Choices from Generator
             List<Pair<Unit,List<UnitAction>>> unitChoices = pag.getChoices();
+            Unit selectedUnit = null;
+            UnitAction unitAction = null;
 
             boolean consistent = false;
             do {
                 // Iterates through all units from the player that can perform an action
                 for(Pair<Unit,List<UnitAction>> selectedUnitWithActions: unitChoices){
-                    Unit selectedUnit = selectedUnitWithActions.m_a;
+                    selectedUnit = selectedUnitWithActions.m_a;
                     List<UnitAction>  actionsOfSelectedUnit = selectedUnitWithActions.m_b;
                     UnitType type = selectedUnit.getType();
-                    {
                     switch(type.name){
                             case "Base":
-                                // 3 is just an index, should be replaced
-                               UnitAction unitAction = actionsOfSelectedUnit.get(3);
+                                Base base = new Base(selectedUnit,actionsOfSelectedUnit, pgs, player);
+                                unitAction = base.getNextUnitAction();
                                 break;
                             case "Barracks":
                                 break;
@@ -82,17 +84,15 @@ public class Predator extends AIWithComputationBudget {
                                 break;
                         }
                     }
-                }
 
-                Unit base = unitChoices.get(0).m_a;
-                UnitAction unitAction = unitChoices.get(0).m_b.get(3);
 
-                ResourceUsage r2 = unitAction.resourceUsage(base, pgs);
+
+                ResourceUsage r2 = unitAction.resourceUsage(selectedUnit, pgs);
 
                 if (pa.getResourceUsage().consistentWith(r2, gs)) {
 
                     pa.getResourceUsage().merge(r2);
-                    pa.addUnitAction(base, unitAction);
+                    pa.addUnitAction(selectedUnit, unitAction);
 
                     consistent = true;
                 }
