@@ -35,8 +35,7 @@ public class Predator extends AIWithComputationBudget {
     }
 
 
-
-    // This will be called once at the beginning of each new game:    
+    // This will be called once at the beginning of each new game:
 
     public void reset() {
 
@@ -50,43 +49,41 @@ public class Predator extends AIWithComputationBudget {
         try {
 
             if (!gs.canExecuteAnyAction(player)) return new PlayerAction();
-
             PhysicalGameState pgs = gs.getPhysicalGameState();
             PlayerActionGenerator pag = new PlayerActionGenerator(gs, player);
             PlayerAction pa = new PlayerAction();
 
             // Gets all Choices from Generator
-            List<Pair<Unit,List<UnitAction>>> unitChoices = pag.getChoices();
+            List<Pair<Unit, List<UnitAction>>> unitChoices = pag.getChoices();
             Unit selectedUnit = null;
             UnitAction unitAction = null;
 
             boolean consistent = false;
             do {
                 // Iterates through all units from the player that can perform an action
-                for(Pair<Unit,List<UnitAction>> selectedUnitWithActions: unitChoices){
+                for (Pair<Unit, List<UnitAction>> selectedUnitWithActions : unitChoices) {
                     selectedUnit = selectedUnitWithActions.m_a;
-                    List<UnitAction>  actionsOfSelectedUnit = selectedUnitWithActions.m_b;
+                    List<UnitAction> actionsOfSelectedUnit = selectedUnitWithActions.m_b;
                     UnitType type = selectedUnit.getType();
-                    switch(type.name){
-                            case "Base":
-                                Base base = new Base(selectedUnit,actionsOfSelectedUnit, pgs, player);
-                                unitAction = base.getNextUnitAction();
-                                break;
-                            case "Barracks":
-                                break;
-                            case "Worker":
-                                Worker worker = new Worker(selectedUnit,actionsOfSelectedUnit, pgs, player);
-                                unitAction = worker.getNextUnitAction();
-                                break;
-                            case "Light":
-                                break;
-                            case "Heavy":
-                                break;
-                            case "Ranged":
-                                break;
-                        }
+                    switch (type.name) {
+                        case "Base":
+                            Base base = new Base(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                            unitAction = base.getNextUnitAction();
+                            break;
+                        case "Barracks":
+                            break;
+                        case "Worker":
+                            Worker worker = new Worker(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                            unitAction = worker.getNextUnitAction();
+                            break;
+                        case "Light":
+                            break;
+                        case "Heavy":
+                            break;
+                        case "Ranged":
+                            break;
                     }
-
+                }
 
 
                 ResourceUsage r2 = unitAction.resourceUsage(selectedUnit, pgs);
@@ -95,18 +92,16 @@ public class Predator extends AIWithComputationBudget {
 
                     pa.getResourceUsage().merge(r2);
                     pa.addUnitAction(selectedUnit, unitAction);
-
                     consistent = true;
                 }
 
             } while (!consistent);
 
             return pa;
-        }catch(Exception e) {
+        } catch (Exception e) {
             return new PlayerAction();
         }
     }
-
 
 
     // This will be called by the microRTS GUI to get the
@@ -115,9 +110,7 @@ public class Predator extends AIWithComputationBudget {
 
     // in the GUI.
 
-    public List<ParameterSpecification> getParameters()
-
-    {
+    public List<ParameterSpecification> getParameters() {
 
         return new ArrayList<>();
 

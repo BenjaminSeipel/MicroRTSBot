@@ -2,6 +2,7 @@ import rts.PhysicalGameState;
 import rts.UnitAction;
 import rts.units.Unit;
 
+import java.util.Random;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,8 +67,33 @@ public class Worker extends BaseForUnits {
                     return this.buildBarrack().get(0);
                 }
             } else {
+                int[] positionEnemy = getEnemyBasePosition();
+                if (positionEnemy == null) {
+                    positionEnemy = getEnemyWorkerPosition();
+                }
+                Random rand = new Random();
+                int takeX = rand.nextInt(2);
+                int enemyX = positionEnemy[0];
+                int enemyY = positionEnemy[1];
+
+                if (!this.getAttack().isEmpty()) {
+                    return this.getAttack().get(0);
+                } else if (takeX == 1) {
+                    if (this.unit.getX() < enemyX && !this.getMoveRigth().isEmpty()) {
+                        return this.getMoveRigth().get(0);
+                    } else if (this.unit.getX() > enemyX && !this.getMoveLeft().isEmpty()) {
+                        return this.getMoveLeft().get(0);
+                    }
+                }
+
+                if (this.unit.getY() < enemyY && !this.getMoveDown().isEmpty()) {
+                    return this.getMoveDown().get(0);
+                } else if (this.unit.getY() > enemyY && !this.getMoveUp().isEmpty()) {
+                    return this.getMoveUp().get(0);
+                }
 
             }
+
             if (!(this.waitAction().isEmpty())) {
                 return this.waitAction().get(0);
             }
@@ -105,6 +131,56 @@ public class Worker extends BaseForUnits {
         }
         // Just for one player so far !!!!!!!!!!!
         return false;
+    }
+
+    public int[] getEnemyBasePosition() {
+        List<Unit> units = this.pgs.getUnits();
+        Unit Base = null;
+        Unit unit = null;
+        Iterator iter = units.iterator();
+        while (iter.hasNext()) {
+            unit = (Unit) iter.next();
+            if (unit.getType().name == "Base" && unit.getPlayer() != this.player) {
+                Base = unit;
+                break;
+            }
+        }
+
+        if (Base == null) {
+            // need new base, old one is destroyed(if possible)
+            return null;
+        }
+
+
+        int[] position = new int[2];
+        position[0] = Base.getX();
+        position[1] = Base.getY();
+        return position;
+    }
+
+    public int[] getEnemyWorkerPosition() {
+        List<Unit> units = this.pgs.getUnits();
+        Unit Base = null;
+        Unit unit = null;
+        Iterator iter = units.iterator();
+        while (iter.hasNext()) {
+            unit = (Unit) iter.next();
+            if (unit.getType().name == "Worker" && unit.getPlayer() != this.player) {
+                Base = unit;
+                break;
+            }
+        }
+
+        if (Base == null) {
+            // need new base, old one is destroyed(if possible)
+            return null;
+        }
+
+
+        int[] position = new int[2];
+        position[0] = Base.getX();
+        position[1] = Base.getY();
+        return position;
     }
 
     public int[] getBasePosition() {
@@ -202,6 +278,12 @@ public class Worker extends BaseForUnits {
     public List<UnitAction> getReturn() {
         return (this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_RETURN))
+                .toList());
+    }
+
+    public List<UnitAction> getAttack() {
+        return (this.actions.stream()
+                .filter(action -> (action.getType() == UnitAction.TYPE_ATTACK_LOCATION))
                 .toList());
     }
 

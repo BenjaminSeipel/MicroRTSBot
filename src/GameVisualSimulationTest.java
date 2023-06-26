@@ -4,6 +4,9 @@
   */
 
  import ai.PassiveAI;
+ import ai.RandomAI;
+ import ai.RandomBiasedAI;
+ import ai.abstraction.HeavyRush;
  import ai.core.AI;
 
  import ai.abstraction.WorkerRush;
@@ -31,8 +34,8 @@
          int PERIOD = 20;
          boolean gameover = false;
 
-         AI ai2 = new PassiveAI();
-         AI ai1 = new Predator(utt);
+         AI ai1 = new RandomAI();
+         AI ai2 = new Predator(utt);
 
          JFrame w = PhysicalGameStatePanel.newVisualizer(gs, 640, 640, false, PhysicalGameStatePanel.COLORSCHEME_BLACK);
 //        JFrame w = PhysicalGameStatePanel.newVisualizer(gs,640,640,false,PhysicalGameStatePanel.COLORSCHEME_WHITE);
