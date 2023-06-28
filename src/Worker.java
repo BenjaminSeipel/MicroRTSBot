@@ -18,7 +18,7 @@ public class Worker extends BaseForUnits {
 
         while (iter.hasNext()) {
             action = (UnitAction) iter.next();
-            int[] positionOfBase = getBasePosition();
+            int[] positionOfBase = getUnitPosition("Base");
             int amountOfBarracks = this.getAmountOfBarracks();
 
             if (this.isUnitInRessurceZone()) {
@@ -69,7 +69,7 @@ public class Worker extends BaseForUnits {
             } else {
                 int[] positionEnemy = getEnemyBasePosition();
                 if (positionEnemy == null) {
-                    positionEnemy = getEnemyWorkerPosition();
+                    positionEnemy = getEnemyUnitPosition("Worker");
                 }
                 Random rand = new Random();
                 int takeX = rand.nextInt(2);
@@ -118,7 +118,7 @@ public class Worker extends BaseForUnits {
     }
 
     public boolean isUnitInRessurceZone() {
-        int[] positionOfBase = this.getBasePosition();
+        int[] positionOfBase = this.getUnitPosition("Base");
         Unit closestResource = this.getClosestRessource();
 
         int XBorderLeft = (positionOfBase[0] > closestResource.getX()) ? closestResource.getX() : positionOfBase[0];
@@ -158,46 +158,20 @@ public class Worker extends BaseForUnits {
         return position;
     }
 
-    public int[] getEnemyWorkerPosition() {
+    public int[] getEnemyUnitPosition(String unitName) {
         List<Unit> units = this.pgs.getUnits();
         Unit Base = null;
         Unit unit = null;
         Iterator iter = units.iterator();
         while (iter.hasNext()) {
             unit = (Unit) iter.next();
-            if (unit.getType().name == "Worker" && unit.getPlayer() != this.player) {
+            if (unit.getType().name == unitName && unit.getPlayer() != this.player) {
                 Base = unit;
                 break;
             }
         }
 
         if (Base == null) {
-            // need new base, old one is destroyed(if possible)
-            return null;
-        }
-
-
-        int[] position = new int[2];
-        position[0] = Base.getX();
-        position[1] = Base.getY();
-        return position;
-    }
-
-    public int[] getBasePosition() {
-        List<Unit> units = this.pgs.getUnits();
-        Unit Base = null;
-        Unit unit = null;
-        Iterator iter = units.iterator();
-        while (iter.hasNext()) {
-            unit = (Unit) iter.next();
-            if (unit.getType().name == "Base" && unit.getPlayer() == this.player) {
-                Base = unit;
-                break;
-            }
-        }
-
-        if (Base == null) {
-            // need new base, old one is destroyed(if possible)
             return null;
         }
 
@@ -209,7 +183,7 @@ public class Worker extends BaseForUnits {
     }
 
     public Unit getClosestRessource() {
-        int[] positionOfBase = this.getBasePosition();
+        int[] positionOfBase = this.getUnitPosition("Base");
         Unit unit = null;
         int diffX = this.pgs.getWidth();
         int diffY = this.pgs.getHeight();
@@ -245,30 +219,6 @@ public class Worker extends BaseForUnits {
         return unit;
     }
 
-    public List<UnitAction> getMoveUp() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_UP))
-                .toList();
-    }
-
-    public List<UnitAction> getMoveDown() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_DOWN))
-                .toList();
-    }
-
-    public List<UnitAction> getMoveRigth() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_RIGHT))
-                .toList();
-    }
-
-    public List<UnitAction> getMoveLeft() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_LEFT))
-                .toList();
-    }
-
     public List<UnitAction> getHarvest() {
         return (this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_HARVEST))
@@ -290,12 +240,6 @@ public class Worker extends BaseForUnits {
     public List<UnitAction> buildBarrack() {
         return (this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_PRODUCE && action.getUnitType().name == "Barracks"))
-                .toList());
-    }
-
-    public List<UnitAction> waitAction() {
-        return (this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_NONE))
                 .toList());
     }
 
