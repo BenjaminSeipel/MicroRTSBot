@@ -7,6 +7,8 @@
  import ai.RandomAI;
  import ai.RandomBiasedAI;
  import ai.abstraction.HeavyRush;
+ import ai.abstraction.LightRush;
+ import ai.abstraction.WorkerDefense;
  import ai.core.AI;
 
  import ai.abstraction.WorkerRush;
@@ -19,6 +21,8 @@
  import rts.PhysicalGameState;
  import rts.PlayerAction;
  import rts.units.UnitTypeTable;
+
+ import java.util.Random;
 
  /**
   * @author santi
@@ -34,7 +38,7 @@
          int PERIOD = 20;
          boolean gameover = false;
 
-         AI ai1 = new RandomAI();
+         AI ai1 = new LightRush(utt, new BFSPathFinding());
          AI ai2 = new Predator(utt);
 
          JFrame w = PhysicalGameStatePanel.newVisualizer(gs, 640, 640, false, PhysicalGameStatePanel.COLORSCHEME_BLACK);
