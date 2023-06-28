@@ -6,8 +6,11 @@ import java.util.List;
 
 public class BaseForUnits {
     int MAXIMUM_WORKERS = 5;
-    int MAXIMUM_WORKES_IN_RESSOURCE_ZONE = 2;
-    int MAX_AMOUNT_OF_BARRACK = 1;
+    int MAXIMUM_WORKES_IN_RESSOURCE_ZONE = 5;
+    int MAX_AMOUNT_OF_BARRACK = 2;
+
+    int MAX_AMOUNT_OF_HEAVY_UNITS = 2;
+
     Unit unit;
     List<UnitAction> actions;
     PhysicalGameState pgs;
