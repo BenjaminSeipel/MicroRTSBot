@@ -8,39 +8,35 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Barracks extends BaseForUnits{
-
-
-    public static final String UNIT_HEAVY = "Heavy";
-    public static final String UNIT_LIGHT = "Light";
-    public static final String UNIT_RANGED = "Ranged";
+public class Barracks extends BaseUnit {
 
     private static String lastUnitProduced = null;
 
     public Barracks(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
     }
+
     //Generally just procuce light units
     public UnitAction getNextUnitAction() {
         Iterator<UnitAction> iter = this.actions.iterator();
         UnitAction action = null;
         String unitProductionTarget = getNextUnitToProduce();
-        while(iter.hasNext()) {
+        while (iter.hasNext()) {
             action = iter.next();
             if (action.getType() == UnitAction.TYPE_PRODUCE) {
                 String unitType = action.getUnitType().name;
-                if(unitType.equals(unitProductionTarget)){
+                if (unitType.equals(unitProductionTarget)) {
                     return action;
                 }
             }
         }
-        if(action == null){
+        if (action == null) {
             return new UnitAction(UnitAction.TYPE_NONE);
         }
         ResourceUsage barrackUsage = action.resourceUsage(unit, pgs);
-        if(barrackUsage.getResourcesUsed(player) > 0) {
+        if (barrackUsage.getResourcesUsed(player) > 0) {
             return new UnitAction(UnitAction.TYPE_NONE);
-        }else{
+        } else {
             return action;
         }
     }
@@ -62,13 +58,5 @@ public class Barracks extends BaseForUnits{
             return UNIT_RANGED;
         }*/
     }
-
-    //Probably unnecessary, as barracks can only produce
-    public List<UnitAction> getProduce() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_PRODUCE))
-                .toList();
-    }
-
 
 }

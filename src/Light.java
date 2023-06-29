@@ -15,26 +15,26 @@ public class Light extends BaseUnit {
         Iterator<UnitAction> iter = this.actions.iterator();
         UnitAction action = null;
 
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             action = iter.next();
-            int[] positionEnemy = getEnemyBasePosition();
-            if(positionEnemy == null){
-                positionEnemy = getEnemyWorkerPosition();
+            int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
+            if (positionEnemy == null) {
+                positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
             }
             int enemyX = positionEnemy[0];
             int enemyY = positionEnemy[1];
 
-            if(!this.getAttack().isEmpty()){
+            if (!this.getAttack().isEmpty()) {
                 return this.getAttack().get(0);
-            }else if(this.unit.getX() < enemyX && !this.getMoveRight().isEmpty()){
+            } else if (this.unit.getX() < enemyX && !this.getMoveRight().isEmpty()) {
                 return this.getMoveRight().get(0);
-            }else if(this.unit.getX() > enemyX && !this.getMoveLeft().isEmpty()){
+            } else if (this.unit.getX() > enemyX && !this.getMoveLeft().isEmpty()) {
                 return this.getMoveLeft().get(0);
-            }else if(this.unit.getY() < enemyY && !this.getMoveDown().isEmpty()){
+            } else if (this.unit.getY() < enemyY && !this.getMoveDown().isEmpty()) {
                 return this.getMoveDown().get(0);
-            }else if(this.unit.getY() > enemyY && !this.getMoveUp().isEmpty()){
+            } else if (this.unit.getY() > enemyY && !this.getMoveUp().isEmpty()) {
                 return this.getMoveUp().get(0);
-            }else if(!(this.waitAction().isEmpty())){
+            } else if (!(this.waitAction().isEmpty())) {
                 return this.waitAction().get(0);
             }
         }
@@ -109,7 +109,7 @@ public class Light extends BaseUnit {
         return nearestEnemy;
     }
 
-    private double getDistance(Unit enemy){
+    private double getDistance(Unit enemy) {
         return Math.sqrt(Math.pow(this.unit.getX() - enemy.getX(), 2) + Math.pow(this.unit.getY() - enemy.getY(), 2));
     }
 

@@ -21,9 +21,9 @@ public class Heavy extends BaseUnit {
 
         while (iter.hasNext()) {
             action = iter.next();
-            int[] positionEnemy = getEnemyBasePosition();
+            int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
             if (positionEnemy == null) {
-                positionEnemy = getEnemyWorkerPosition();
+                positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
             }
             Random rand = new Random();
             int takeX = rand.nextInt(2);
@@ -43,7 +43,7 @@ public class Heavy extends BaseUnit {
                 if (enemyPos != null && !this.getAttack().isEmpty()) {
                     return this.getAttack().get(0);
                 }
-                if(enemyPos != null){
+                if (enemyPos != null) {
                     if (this.unit.getX() < enemyPos[0] && !this.getMoveRight().isEmpty()) {
                         return this.getMoveRight().get(0);
                     } else if (this.unit.getX() > enemyPos[0] && !this.getMoveLeft().isEmpty()) {
@@ -56,7 +56,7 @@ public class Heavy extends BaseUnit {
                 }
             } else {
                 // Move back to the base
-                int[] basePosition = getBasePosition();
+                int[] basePosition = getUnitPosition(UNIT_BASE);
                 int baseX = basePosition[0];
                 int baseY = basePosition[1];
 
@@ -80,7 +80,7 @@ public class Heavy extends BaseUnit {
     }
 
     private boolean isEnemyWithinBaseRadius() {
-        int[] basePosition = getBasePosition();
+        int[] basePosition = getUnitPosition(UNIT_BASE);
         System.out.println("Base Position: " + basePosition[0] + ", " + basePosition[1] + "\n");
         int baseX = basePosition[0];
         int baseY = basePosition[1];
@@ -99,8 +99,8 @@ public class Heavy extends BaseUnit {
     }
 
 
-    private int[] getClosestEnemyWithinProtectionArea(){
-        int[] basePosition = getBasePosition();
+    private int[] getClosestEnemyWithinProtectionArea() {
+        int[] basePosition = getUnitPosition(UNIT_BASE);
         System.out.println("Base Position: " + basePosition[0] + ", " + basePosition[1] + "\n");
         int baseX = basePosition[0];
         int baseY = basePosition[1];

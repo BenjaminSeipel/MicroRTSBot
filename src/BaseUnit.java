@@ -6,7 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BaseUnit {
-
+    public static final String UNIT_HEAVY = "Heavy";
+    public static final String UNIT_LIGHT = "Light";
+    public static final String UNIT_RANGED = "Ranged";
+    public static final String UNIT_BASE = "Base";
+    public static final String UNIT_BARRACK = "Barracks";
+    public static final String UNIT_WORKER = "Worker";
+    public static final String UNIT_RESOURCE = "Resource";
     int MAXIMUM_WORKERS = 10;
     int MAXIMUM_WORKES_IN_RESSOURCE_ZONE = 2;
     int MAX_AMOUNT_OF_BARRACK = 1;
@@ -25,8 +31,7 @@ public class BaseUnit {
     }
 
 
-
-    int[] getEnemyNextToMe(){
+    int[] getEnemyNextToMe() {
         List<Unit> units = this.pgs.getUnits();
         for (Unit unit : units) {
             if (unit.getPlayer() != this.player) {
@@ -40,30 +45,6 @@ public class BaseUnit {
         return null;
     }
 
-    public int[] getBasePosition() {
-        List<Unit> units = this.pgs.getUnits();
-        Unit Base = null;
-        Unit unit = null;
-        Iterator<Unit> iter = units.iterator();
-        while (iter.hasNext()) {
-            unit = iter.next();
-            if (unit.getType().name == "Base" && unit.getPlayer() == this.player) {
-                Base = unit;
-                break;
-            }
-        }
-
-        if (Base == null) {
-            // need new base, old one is destroyed(if possible)
-            return null;
-        }
-
-
-        int[] position = new int[2];
-        position[0] = Base.getX();
-        position[1] = Base.getY();
-        return position;
-    }
     public List<UnitAction> getMoveUp() {
         return this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_UP))
@@ -108,21 +89,26 @@ public class BaseUnit {
 
     }
 
-    public int[] getEnemyBasePosition() {
+    public List<UnitAction> getProduce(String unitName) {
+        return this.actions.stream()
+                .filter(action -> (action.getType() == UnitAction.TYPE_PRODUCE && action.getUnitType().name == unitName))
+                .toList();
+    }
+
+    public int[] getEnemyUnitPosition(String unitName) {
         List<Unit> units = this.pgs.getUnits();
         Unit Base = null;
         Unit unit = null;
         Iterator iter = units.iterator();
         while (iter.hasNext()) {
             unit = (Unit) iter.next();
-            if (unit.getType().name == "Base" && unit.getPlayer() != this.player) {
+            if (unit.getType().name == unitName && unit.getPlayer() != this.player) {
                 Base = unit;
                 break;
             }
         }
 
         if (Base == null) {
-            // need new base, old one is destroyed(if possible)
             return null;
         }
 
@@ -133,21 +119,20 @@ public class BaseUnit {
         return position;
     }
 
-    public int[] getEnemyWorkerPosition() {
+    public int[] getUnitPosition(String unitName) {
         List<Unit> units = this.pgs.getUnits();
         Unit Base = null;
         Unit unit = null;
         Iterator iter = units.iterator();
         while (iter.hasNext()) {
             unit = (Unit) iter.next();
-            if (unit.getType().name == "Worker" && unit.getPlayer() != this.player) {
+            if (unit.getType().name == unitName && unit.getPlayer() == this.player) {
                 Base = unit;
                 break;
             }
         }
 
         if (Base == null) {
-            // need new base, old one is destroyed(if possible)
             return null;
         }
 

@@ -17,9 +17,9 @@ public class Ranged extends BaseUnit {
 
         while (iter.hasNext()) {
             action = iter.next();
-            int[] positionEnemy = getEnemyBasePosition();
+            int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
             if (positionEnemy == null) {
-                positionEnemy = getEnemyWorkerPosition();
+                positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
             }
             Random rand = new Random();
             int takeX = rand.nextInt(2);
