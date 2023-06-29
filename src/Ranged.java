@@ -21,30 +21,16 @@ public class Ranged extends BaseUnit {
             if (positionEnemy == null) {
                 positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
             }
-            Random rand = new Random();
-            int takeX = rand.nextInt(2);
+
             int enemyX = positionEnemy[0];
             int enemyY = positionEnemy[1];
 
             if (!this.getAttack().isEmpty()) {
                 return this.getAttack().get(0);
-            } else if (takeX == 1) {
-                if (this.unit.getX() < enemyX && !this.getMoveRight().isEmpty()) {
-                    return this.getMoveRight().get(0);
-                } else if (this.unit.getX() > enemyX && !this.getMoveLeft().isEmpty()) {
-                    return this.getMoveLeft().get(0);
-                }
+            } else {
+                moveToPosition(enemyX, enemyY);
             }
 
-            if (this.unit.getY() < enemyY && !this.getMoveDown().isEmpty()) {
-                return this.getMoveDown().get(0);
-            } else if (this.unit.getY() > enemyY && !this.getMoveUp().isEmpty()) {
-                return this.getMoveUp().get(0);
-            }
-
-            if (!(this.waitAction().isEmpty())) {
-                return this.waitAction().get(0);
-            }
         }
 
         return new UnitAction(UnitAction.TYPE_NONE);

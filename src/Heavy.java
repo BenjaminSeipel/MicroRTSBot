@@ -44,15 +44,7 @@ public class Heavy extends BaseUnit {
                     return this.getAttack().get(0);
                 }
                 if (enemyPos != null) {
-                    if (this.unit.getX() < enemyPos[0] && !this.getMoveRight().isEmpty()) {
-                        return this.getMoveRight().get(0);
-                    } else if (this.unit.getX() > enemyPos[0] && !this.getMoveLeft().isEmpty()) {
-                        return this.getMoveLeft().get(0);
-                    } else if (this.unit.getY() < enemyPos[1] && !this.getMoveDown().isEmpty()) {
-                        return this.getMoveDown().get(0);
-                    } else if (this.unit.getY() > enemyPos[1] && !this.getMoveUp().isEmpty()) {
-                        return this.getMoveUp().get(0);
-                    }
+                    return this.moveToPosition(enemyPos[0], enemyPos[1]);
                 }
             } else {
                 // Move back to the base
@@ -60,15 +52,7 @@ public class Heavy extends BaseUnit {
                 int baseX = basePosition[0];
                 int baseY = basePosition[1];
 
-                if (this.unit.getX() > baseX && !this.getMoveLeft().isEmpty()) {
-                    return this.getMoveLeft().get(0);
-                } else if (this.unit.getX() < baseX && !this.getMoveRight().isEmpty()) {
-                    return this.getMoveRight().get(0);
-                } else if (this.unit.getY() > baseY && !this.getMoveUp().isEmpty()) {
-                    return this.getMoveUp().get(0);
-                } else if (this.unit.getY() < baseY && !this.getMoveDown().isEmpty()) {
-                    return this.getMoveDown().get(0);
-                }
+                return moveToPosition(baseX, baseY);
             }
 */
 
