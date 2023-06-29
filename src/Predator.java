@@ -13,14 +13,12 @@ import java.util.List;
 public class Predator extends AIWithComputationBudget {
 
     UnitTypeTable m_utt;
-    //int counter = 0;
-    //int counter1 = 0;
+
     //This is the default constructor that microRTS will call:
 
     public Predator(UnitTypeTable utt) {
 
         super(100, 100);
-        //fa
 
         m_utt = utt;
 
@@ -52,71 +50,60 @@ public class Predator extends AIWithComputationBudget {
             PhysicalGameState pgs = gs.getPhysicalGameState();
             PlayerActionGenerator pag = new PlayerActionGenerator(gs, player);
             PlayerAction pa = new PlayerAction();
+            ResourceUsage r = gs.getResourceUsage();
+            pa.setResourceUsage(r);
 
             // Gets all Choices from Generator
             List<Pair<Unit, List<UnitAction>>> unitChoices = pag.getChoices();
             Unit selectedUnit = null;
-            UnitAction unitAction = null;
 
-            boolean consistent = false;
-            do {
-                // Iterates through all units from the player that can perform an action
-                for (Pair<Unit, List<UnitAction>> selectedUnitWithActions : unitChoices) {
-                    selectedUnit = selectedUnitWithActions.m_a;
-                    List<UnitAction> actionsOfSelectedUnit = selectedUnitWithActions.m_b;
-                    UnitType type = selectedUnit.getType();
-                    switch (type.name) {
-                        case BaseUnit.UNIT_BASE:
-                            Base base = new Base(selectedUnit, actionsOfSelectedUnit, pgs, player);
-                            unitAction = base.getNextUnitAction();
-                            break;
-                        case BaseUnit.UNIT_BARRACK:
-                            Barracks barracks = new Barracks(selectedUnit, actionsOfSelectedUnit, pgs, player);
-                            unitAction = barracks.getNextUnitAction();
-                            break;
-                        case BaseUnit.UNIT_WORKER:
-                            Worker worker = new Worker(selectedUnit, actionsOfSelectedUnit, pgs, player);
-                            unitAction = worker.getNextUnitAction();
-                            break;
-                        case BaseUnit.UNIT_LIGHT:
-                            Light light = new Light(selectedUnit, actionsOfSelectedUnit, pgs, player);
-                            unitAction = light.getNextUnitAction();
-                            break;
-                        case BaseUnit.UNIT_HEAVY:
-                            Heavy heavy = new Heavy(selectedUnit, actionsOfSelectedUnit, pgs, player);
-                            unitAction = heavy.getNextUnitAction();
-                            break;
-                        case BaseUnit.UNIT_RANGED:
-                            Ranged ranged = new Ranged(selectedUnit, actionsOfSelectedUnit, pgs, player);
-                            unitAction = ranged.getNextUnitAction();
-                            break;
-                    }
+            for (Pair<Unit, List<UnitAction>> selectedUnitWithActions : unitChoices) {
+                selectedUnit = selectedUnitWithActions.m_a;
+                List<UnitAction> actionsOfSelectedUnit = selectedUnitWithActions.m_b;
+                UnitType type = selectedUnit.getType();
+                UnitAction unitAction = null;
+
+                switch (type.name) {
+                    case BaseUnit.UNIT_BASE:
+                        Base base = new Base(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                        unitAction = base.getNextUnitAction();
+                        break;
+                    case BaseUnit.UNIT_BARRACK:
+                        Barracks barracks = new Barracks(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                        unitAction = barracks.getNextUnitAction();
+                        break;
+                    case BaseUnit.UNIT_WORKER:
+                        Worker worker = new Worker(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                        unitAction = worker.getNextUnitAction();
+                        break;
+                    case BaseUnit.UNIT_LIGHT:
+                        Light light = new Light(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                        unitAction = light.getNextUnitAction();
+                        break;
+                    case BaseUnit.UNIT_HEAVY:
+                        Heavy heavy = new Heavy(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                        unitAction = heavy.getNextUnitAction();
+                        break;
+                    case BaseUnit.UNIT_RANGED:
+                        Ranged ranged = new Ranged(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                        unitAction = ranged.getNextUnitAction();
+                        break;
                 }
-
-
                 ResourceUsage r2 = unitAction.resourceUsage(selectedUnit, pgs);
 
                 if (pa.getResourceUsage().consistentWith(r2, gs)) {
 
                     pa.getResourceUsage().merge(r2);
                     pa.addUnitAction(selectedUnit, unitAction);
-                    consistent = true;
                 }
+            }
 
-            } while (!consistent);
 
             return pa;
         } catch (Exception e) {
             return new PlayerAction();
         }
     }
-
-
-    // This will be called by the microRTS GUI to get the
-
-    // list of parameters that this bot wants exposed
-
-    // in the GUI.
 
     public List<ParameterSpecification> getParameters() {
 
