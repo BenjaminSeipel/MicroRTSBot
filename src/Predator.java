@@ -71,16 +71,24 @@ public class Predator extends AIWithComputationBudget {
                             unitAction = base.getNextUnitAction();
                             break;
                         case "Barracks":
+                            Barracks barracks = new Barracks(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                            unitAction = barracks.getNextUnitAction();
                             break;
                         case "Worker":
                             Worker worker = new Worker(selectedUnit, actionsOfSelectedUnit, pgs, player);
                             unitAction = worker.getNextUnitAction();
                             break;
                         case "Light":
+                            Light light = new Light(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                            unitAction = light.getNextUnitAction();
                             break;
                         case "Heavy":
+                            Heavy heavy = new Heavy(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                            unitAction = heavy.getNextUnitAction();
                             break;
                         case "Ranged":
+                            Ranged ranged = new Ranged(selectedUnit, actionsOfSelectedUnit, pgs, player);
+                            unitAction = ranged.getNextUnitAction();
                             break;
                     }
                 }
