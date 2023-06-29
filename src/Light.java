@@ -26,16 +26,8 @@ public class Light extends BaseUnit {
 
             if (!this.getAttack().isEmpty()) {
                 return this.getAttack().get(0);
-            } else if (this.unit.getX() < enemyX && !this.getMoveRight().isEmpty()) {
-                return this.getMoveRight().get(0);
-            } else if (this.unit.getX() > enemyX && !this.getMoveLeft().isEmpty()) {
-                return this.getMoveLeft().get(0);
-            } else if (this.unit.getY() < enemyY && !this.getMoveDown().isEmpty()) {
-                return this.getMoveDown().get(0);
-            } else if (this.unit.getY() > enemyY && !this.getMoveUp().isEmpty()) {
-                return this.getMoveUp().get(0);
-            } else if (!(this.waitAction().isEmpty())) {
-                return this.waitAction().get(0);
+            } else {
+                return this.moveToPosition(enemyX, enemyY);
             }
         }
         return new UnitAction(UnitAction.TYPE_NONE);
@@ -61,15 +53,7 @@ public class Light extends BaseUnit {
                     int enemyX = nearestEnemy.getX();
                     int enemyY = nearestEnemy.getY();
 
-                    if (this.unit.getX() < enemyX && !this.getMoveRight().isEmpty()) {
-                        return this.getMoveRight().get(0);
-                    } else if (this.unit.getX() > enemyX && !this.getMoveLeft().isEmpty()) {
-                        return this.getMoveLeft().get(0);
-                    } else if (this.unit.getY() < enemyY && !this.getMoveDown().isEmpty()) {
-                        return this.getMoveDown().get(0);
-                    } else if (this.unit.getY() > enemyY && !this.getMoveUp().isEmpty()) {
-                        return this.getMoveUp().get(0);
-                    }
+                    return this.moveToPosition(enemyX, enemyY);
                 }
             }
 

@@ -25,71 +25,31 @@ public class Worker extends BaseUnit {
                 Unit closestRessource = this.getClosestRessource();
                 if (!this.getHarvest().isEmpty()) {
                     return this.getHarvest().get(0);
+                } else if (!this.getReturn().isEmpty()) {
+                    return this.getReturn().get(0);
                 } else if (this.isOnTheWayBackToBase()) {
-                    if (this.player == 0) {
-                        if (unit.getX() < positionOfBase[0] && !this.getMoveRight().isEmpty()) {
-                            return this.getMoveRight().get(0);
-                        } else if (unit.getY() < positionOfBase[1] && !this.getMoveDown().isEmpty()) {
-                            return this.getMoveDown().get(0);
-                        } else if (!this.getReturn().isEmpty()) {
-                            return this.getReturn().get(0);
-                        }
-                    } else {
-                        if (unit.getX() > positionOfBase[0] && !this.getMoveLeft().isEmpty()) {
-                            return this.getMoveLeft().get(0);
-                        } else if (unit.getY() > positionOfBase[1] && !this.getMoveUp().isEmpty()) {
-                            return this.getMoveUp().get(0);
-                        } else if (!this.getReturn().isEmpty()) {
-                            return this.getReturn().get(0);
-                        }
-                    }
+                    return moveToPosition(positionOfBase[0], positionOfBase[1]);
                 } else {
-                    if (this.player == 0) {
-                        if (unit.getX() > closestRessource.getX() && !this.getMoveLeft().isEmpty()) {
-                            return this.getMoveLeft().get(0);
-                        } else if (unit.getY() > closestRessource.getY() && !this.getMoveUp().isEmpty()) {
-                            return this.getMoveUp().get(0);
-                        }
-                    } else {
-                        if (unit.getX() > closestRessource.getX() && !this.getMoveLeft().isEmpty()) {
-                            return this.getMoveLeft().get(0);
-                        } else if (unit.getY() > closestRessource.getY() && !this.getMoveUp().isEmpty()) {
-                            return this.getMoveUp().get(0);
-                        } else if (unit.getX() < closestRessource.getX() && !this.getMoveRight().isEmpty()) {
-                            return this.getMoveRight().get(0);
-                        } else if (unit.getY() < closestRessource.getY() && !this.getMoveDown().isEmpty()) {
-                            return this.getMoveDown().get(0);
-                        }
-                    }
+                    return moveToPosition(closestRessource.getX(), closestRessource.getY());
                 }
             } else if (amountOfBarracks < this.MAX_AMOUNT_OF_BARRACK) {
                 if (!(this.getProduce(UNIT_BARRACK).isEmpty())) {
                     return this.getProduce(UNIT_BARRACK).get(0);
                 }
             } else {
+
                 int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
                 if (positionEnemy == null) {
                     positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
                 }
-                Random rand = new Random();
-                int takeX = rand.nextInt(2);
+
                 int enemyX = positionEnemy[0];
                 int enemyY = positionEnemy[1];
 
                 if (!this.getAttack().isEmpty()) {
                     return this.getAttack().get(0);
-                } else if (takeX == 1) {
-                    if (this.unit.getX() < enemyX && !this.getMoveRight().isEmpty()) {
-                        return this.getMoveRight().get(0);
-                    } else if (this.unit.getX() > enemyX && !this.getMoveLeft().isEmpty()) {
-                        return this.getMoveLeft().get(0);
-                    }
-                }
-
-                if (this.unit.getY() < enemyY && !this.getMoveDown().isEmpty()) {
-                    return this.getMoveDown().get(0);
-                } else if (this.unit.getY() > enemyY && !this.getMoveUp().isEmpty()) {
-                    return this.getMoveUp().get(0);
+                } else {
+                    return this.moveToPosition(enemyX, enemyY);
                 }
 
             }

@@ -5,7 +5,7 @@ import rts.units.Unit;
 import java.util.Iterator;
 import java.util.List;
 
-public class BaseUnit {
+public class BaseUnit extends MoveController {
     public static final String UNIT_HEAVY = "Heavy";
     public static final String UNIT_LIGHT = "Light";
     public static final String UNIT_RANGED = "Ranged";
@@ -18,16 +18,9 @@ public class BaseUnit {
     int MAX_AMOUNT_OF_BARRACK = 1;
     int MAX_AMOUNT_OF_HEAVY_UNITS = 2;
 
-    Unit unit;
-    List<UnitAction> actions;
-    PhysicalGameState pgs;
-    int player;
 
     public BaseUnit(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
-        this.pgs = pgs;
-        this.unit = unit;
-        this.actions = actions;
-        this.player = player;
+        super(unit, actions, pgs, player);
     }
 
 
@@ -45,48 +38,10 @@ public class BaseUnit {
         return null;
     }
 
-    public List<UnitAction> getMoveUp() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_UP))
-                .toList();
-    }
-
-    public List<UnitAction> getMoveDown() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_DOWN))
-                .toList();
-    }
-
-    public List<UnitAction> getMoveRight() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_RIGHT))
-                .toList();
-    }
-
-    public List<UnitAction> getMoveLeft() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_MOVE && action.getDirection() == UnitAction.DIRECTION_LEFT))
-                .toList();
-    }
-
-    public List<UnitAction> getReturn() {
-        return (this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_RETURN))
-                .toList());
-    }
-
     public List<UnitAction> getAttack() {
         return (this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_ATTACK_LOCATION))
                 .toList());
-    }
-
-
-    public List<UnitAction> waitAction() {
-        return (this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_NONE))
-                .toList());
-
     }
 
     public List<UnitAction> getProduce(String unitName) {
