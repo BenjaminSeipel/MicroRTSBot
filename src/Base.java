@@ -5,7 +5,7 @@ import rts.units.Unit;
 import java.util.Iterator;
 import java.util.List;
 
-public class Base extends BaseForUnits {
+public class Base extends BaseUnit {
     public Base(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
     }

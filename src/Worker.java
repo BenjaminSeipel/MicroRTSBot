@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Iterator;
 import java.util.List;
 
-public class Worker extends BaseForUnits {
+public class Worker extends BaseUnit {
 
     public Worker(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
