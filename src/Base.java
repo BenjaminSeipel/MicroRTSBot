@@ -55,7 +55,7 @@ public class Base extends BaseUnit {
         Unit unit;
         while (iter.hasNext()) {
             unit = (Unit) iter.next();
-            if (unit.getPlayer() == this.player && unit.getType().name == "Worker") {
+            if (unit.getPlayer() == this.player && unit.getType().name == UNIT_WORKER) {
                 counter++;
             }
         }
@@ -70,7 +70,7 @@ public class Base extends BaseUnit {
         while (iter.hasNext()) {
             unit = (Unit) iter.next();
             Worker w = new Worker(unit, this.actions, this.pgs, this.player);
-            if (unit.getPlayer() == this.player && unit.getType().name == "Worker" && w.isUnitInRessurceZone()) {
+            if (unit.getPlayer() == this.player && unit.getType().name == UNIT_WORKER && w.isUnitInRessurceZone()) {
                 counter++;
             }
         }

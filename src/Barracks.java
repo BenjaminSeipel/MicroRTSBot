@@ -10,11 +10,6 @@ import java.util.Random;
 
 public class Barracks extends BaseUnit {
 
-
-    public static final String UNIT_HEAVY = "Heavy";
-    public static final String UNIT_LIGHT = "Light";
-    public static final String UNIT_RANGED = "Ranged";
-
     private static String lastUnitProduced = null;
 
     public Barracks(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
@@ -63,13 +58,5 @@ public class Barracks extends BaseUnit {
             return UNIT_RANGED;
         }*/
     }
-
-    //Probably unnecessary, as barracks can only produce
-    public List<UnitAction> getProduce() {
-        return this.actions.stream()
-                .filter(action -> (action.getType() == UnitAction.TYPE_PRODUCE))
-                .toList();
-    }
-
 
 }

@@ -66,27 +66,27 @@ public class Predator extends AIWithComputationBudget {
                     List<UnitAction> actionsOfSelectedUnit = selectedUnitWithActions.m_b;
                     UnitType type = selectedUnit.getType();
                     switch (type.name) {
-                        case "Base":
+                        case BaseUnit.UNIT_BASE:
                             Base base = new Base(selectedUnit, actionsOfSelectedUnit, pgs, player);
                             unitAction = base.getNextUnitAction();
                             break;
-                        case "Barracks":
+                        case BaseUnit.UNIT_BARRACK:
                             Barracks barracks = new Barracks(selectedUnit, actionsOfSelectedUnit, pgs, player);
                             unitAction = barracks.getNextUnitAction();
                             break;
-                        case "Worker":
+                        case BaseUnit.UNIT_WORKER:
                             Worker worker = new Worker(selectedUnit, actionsOfSelectedUnit, pgs, player);
                             unitAction = worker.getNextUnitAction();
                             break;
-                        case "Light":
+                        case BaseUnit.UNIT_LIGHT:
                             Light light = new Light(selectedUnit, actionsOfSelectedUnit, pgs, player);
                             unitAction = light.getNextUnitAction();
                             break;
-                        case "Heavy":
+                        case BaseUnit.UNIT_HEAVY:
                             Heavy heavy = new Heavy(selectedUnit, actionsOfSelectedUnit, pgs, player);
                             unitAction = heavy.getNextUnitAction();
                             break;
-                        case "Ranged":
+                        case BaseUnit.UNIT_RANGED:
                             Ranged ranged = new Ranged(selectedUnit, actionsOfSelectedUnit, pgs, player);
                             unitAction = ranged.getNextUnitAction();
                             break;
