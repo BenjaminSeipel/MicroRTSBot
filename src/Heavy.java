@@ -31,7 +31,7 @@ public class Heavy extends BaseUnit {
             int enemyY = positionEnemy[1];
 
             // Check if there are any enemies within the base radius
-
+/*
             if (isEnemyWithinBaseRadius()) {
                 // Attack the enemy
                 int[] enemyPos = getEnemyNextToMe();
@@ -70,7 +70,37 @@ public class Heavy extends BaseUnit {
                     return this.getMoveDown().get(0);
                 }
             }
+*/
 
+            int[] freeDefensePosition = getEnemyUnitPosition(UNIT_BASE);
+            int gameWidth = this.pgs.getWidth();
+            int gameHeight = this.pgs.getHeight();
+
+            for (int width = 0; width < gameWidth; width = width + 2) {
+                int height = gameHeight - width - 1;
+                if (this.unit.getX() == width && this.unit.getY() == height) {
+                    return this.waitAction().get(0);
+                }
+                if (this.pgs.getUnitAt(width, height) == null) {
+
+                    freeDefensePosition[0] = width;
+                    freeDefensePosition[1] = height;
+                    break;
+                }
+            }
+
+            int baseX = freeDefensePosition[0];
+            int baseY = freeDefensePosition[1];
+
+            if (this.unit.getX() > baseX && !this.getMoveLeft().isEmpty()) {
+                return this.getMoveLeft().get(0);
+            } else if (this.unit.getX() < baseX && !this.getMoveRight().isEmpty()) {
+                return this.getMoveRight().get(0);
+            } else if (this.unit.getY() > baseY && !this.getMoveUp().isEmpty()) {
+                return this.getMoveUp().get(0);
+            } else if (this.unit.getY() < baseY && !this.getMoveDown().isEmpty()) {
+                return this.getMoveDown().get(0);
+            }
             if (!(this.waitAction().isEmpty())) {
                 return this.waitAction().get(0);
             }
