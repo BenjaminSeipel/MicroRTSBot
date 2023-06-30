@@ -13,10 +13,10 @@ public class BaseUnit extends MoveController {
     public static final String UNIT_BARRACK = "Barracks";
     public static final String UNIT_WORKER = "Worker";
     public static final String UNIT_RESOURCE = "Resource";
-    int MAXIMUM_WORKERS = 10;
+    int MAXIMUM_WORKERS = 5;
     int MAXIMUM_WORKES_IN_RESSOURCE_ZONE = 2;
     int MAX_AMOUNT_OF_BARRACK = 1;
-    int MAX_AMOUNT_OF_HEAVY_UNITS = 2;
+    int MAX_AMOUNT_OF_HEAVY_UNITS;
 
 
     public BaseUnit(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
@@ -110,5 +110,35 @@ public class BaseUnit extends MoveController {
             }
         }
         return counter;
+    }
+
+    public UnitAction attackEnemy() {
+        int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_BARRACK);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_BASE);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_LIGHT);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_HEAVY);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_RANGED);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
+        }
+        int enemyX = positionEnemy[0];
+        int enemyY = positionEnemy[1];
+
+        if (!this.getAttack().isEmpty()) {
+            return this.getAttack().get(0);
+        } else {
+            return this.moveToPosition(enemyX, enemyY);
+        }
     }
 }

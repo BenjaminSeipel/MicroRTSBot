@@ -38,7 +38,7 @@
          int PERIOD = 20;
          boolean gameover = false;
 
-         AI ai1 = new PassiveAI(utt);
+         AI ai1 = new LightRush(utt, new BFSPathFinding());
          AI ai2 = new Predator(utt);
 
          JFrame w = PhysicalGameStatePanel.newVisualizer(gs, 640, 640, false, PhysicalGameStatePanel.COLORSCHEME_BLACK);

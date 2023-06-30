@@ -69,7 +69,8 @@ public class MoveController {
         } else if (this.unit.getX() > x && !this.getMoveLeft().isEmpty()) {
             return this.getMoveLeft().get(0);
         } else {
-            return this.waitAction().get(0);
+            UnitAction ua = this.waitAction().get(0);
+            return ua;
         }
     }
 

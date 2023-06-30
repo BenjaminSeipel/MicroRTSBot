@@ -18,7 +18,7 @@ public class Predator extends AIWithComputationBudget {
 
     public Predator(UnitTypeTable utt) {
 
-        super(100, 100);
+        super(-1, -1);
 
         m_utt = utt;
 
@@ -95,6 +95,7 @@ public class Predator extends AIWithComputationBudget {
 
                     pa.getResourceUsage().merge(r2);
                     pa.addUnitAction(selectedUnit, unitAction);
+                    //break;
                 }
             }
 
