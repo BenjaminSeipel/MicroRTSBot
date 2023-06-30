@@ -30,32 +30,6 @@ public class Heavy extends BaseUnit {
             int enemyX = positionEnemy[0];
             int enemyY = positionEnemy[1];
 
-            // Check if there are any enemies within the base radius
-/*
-            if (isEnemyWithinBaseRadius()) {
-                // Attack the enemy
-                int[] enemyPos = getEnemyNextToMe();
-                //Attack enemyPos here
-                if (enemyPos == null && !(this.waitAction().isEmpty())) {
-                    return this.waitAction().get(0);
-                }
-                //Attack enemyPos here
-                if (enemyPos != null && !this.getAttack().isEmpty()) {
-                    return this.getAttack().get(0);
-                }
-                if (enemyPos != null) {
-                    return this.moveToPosition(enemyPos[0], enemyPos[1]);
-                }
-            } else {
-                // Move back to the base
-                int[] basePosition = getUnitPosition(UNIT_BASE);
-                int baseX = basePosition[0];
-                int baseY = basePosition[1];
-
-                return moveToPosition(baseX, baseY);
-            }
-*/
-
             int[] freeDefensePosition = getEnemyUnitPosition(UNIT_BASE);
             int gameWidth = this.pgs.getWidth();
             int gameHeight = this.pgs.getHeight();
@@ -73,21 +47,10 @@ public class Heavy extends BaseUnit {
                 }
             }
 
-            int baseX = freeDefensePosition[0];
-            int baseY = freeDefensePosition[1];
+            int defensePositionX = freeDefensePosition[0];
+            int defensePositionY = freeDefensePosition[1];
 
-            if (this.unit.getX() > baseX && !this.getMoveLeft().isEmpty()) {
-                return this.getMoveLeft().get(0);
-            } else if (this.unit.getX() < baseX && !this.getMoveRight().isEmpty()) {
-                return this.getMoveRight().get(0);
-            } else if (this.unit.getY() > baseY && !this.getMoveUp().isEmpty()) {
-                return this.getMoveUp().get(0);
-            } else if (this.unit.getY() < baseY && !this.getMoveDown().isEmpty()) {
-                return this.getMoveDown().get(0);
-            }
-            if (!(this.waitAction().isEmpty())) {
-                return this.waitAction().get(0);
-            }
+            return this.moveToPosition(defensePositionX, defensePositionY);
         }
 
         return new UnitAction(UnitAction.TYPE_NONE);

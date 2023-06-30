@@ -47,9 +47,9 @@ public class Worker extends BaseUnit {
                 int enemyY = positionEnemy[1];
 
                 if (!this.getAttack().isEmpty()) {
-                    return this.getAttack().get(0);
+                    // return this.getAttack().get(0);
                 } else {
-                    return this.moveToPosition(enemyX, enemyY);
+                    // return this.moveToPosition(enemyX, enemyY);
                 }
 
             }
