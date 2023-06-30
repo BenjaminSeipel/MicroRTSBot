@@ -111,4 +111,34 @@ public class BaseUnit extends MoveController {
         }
         return counter;
     }
+
+    public UnitAction attackEnemy() {
+        int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_BARRACK);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_BASE);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_LIGHT);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_HEAVY);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_RANGED);
+        }
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
+        }
+        int enemyX = positionEnemy[0];
+        int enemyY = positionEnemy[1];
+
+        if (!this.getAttack().isEmpty()) {
+            return this.getAttack().get(0);
+        } else {
+            return this.moveToPosition(enemyX, enemyY);
+        }
+    }
 }

@@ -48,10 +48,10 @@ public class Barracks extends BaseUnit {
         int randomInt = random.nextInt(6);
 
         if (getAmountOfUnits(UNIT_HEAVY) < MAX_AMOUNT_OF_HEAVY_UNITS) {
-            if (randomInt < 2) {
+            if (randomInt < 3) {
                 lastUnitProduced = UNIT_LIGHT;
                 return UNIT_LIGHT;
-            } else if (randomInt == 2) {
+            } else if (randomInt == 5) {
                 lastUnitProduced = UNIT_RANGED;
                 return UNIT_RANGED;
             } else {

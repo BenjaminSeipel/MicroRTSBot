@@ -12,27 +12,7 @@ public class Ranged extends BaseUnit {
     }
 
     public UnitAction getNextUnitAction() {
-        Iterator<UnitAction> iter = this.actions.iterator();
-        UnitAction action = null;
-
-        while (iter.hasNext()) {
-            action = iter.next();
-            int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
-            if (positionEnemy == null) {
-                positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
-            }
-            int enemyX = positionEnemy[0];
-            int enemyY = positionEnemy[1];
-
-            if (!this.getAttack().isEmpty()) {
-                return this.getAttack().get(0);
-            } else {
-                moveToPosition(enemyX, enemyY);
-            }
-
-        }
-
-        return new UnitAction(UnitAction.TYPE_NONE);
+        return attackEnemy();
     }
 
 }

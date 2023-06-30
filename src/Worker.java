@@ -13,52 +13,45 @@ public class Worker extends BaseUnit {
     }
 
     public UnitAction getNextUnitAction() {
-        Iterator iter = this.actions.iterator();
-        UnitAction action = null;
+        int[] positionOfBase = getUnitPosition(UNIT_BASE);
+        int amountOfBarracks = this.getAmountOfBarracks();
 
-        while (iter.hasNext()) {
-            action = (UnitAction) iter.next();
-            int[] positionOfBase = getUnitPosition(UNIT_BASE);
-            int amountOfBarracks = this.getAmountOfBarracks();
-
-            if (this.isUnitInRessurceZone()) {
-                Unit closestRessource = this.getClosestRessource();
-                if (!this.getHarvest().isEmpty()) {
-                    return this.getHarvest().get(0);
-                } else if (!this.getReturn().isEmpty()) {
-                    return this.getReturn().get(0);
-                } else if (this.isOnTheWayBackToBase()) {
-                    return moveToPosition(positionOfBase[0], positionOfBase[1]);
-                } else {
-                    return moveToPosition(closestRessource.getX(), closestRessource.getY());
-                }
-            } else if (amountOfBarracks < this.MAX_AMOUNT_OF_BARRACK) {
-                if (!(this.getProduce(UNIT_BARRACK).isEmpty())) {
-                    return this.getProduce(UNIT_BARRACK).get(0);
-                }
+        if (this.isUnitInRessurceZone()) {
+            Unit closestRessource = this.getClosestRessource();
+            if (!this.getHarvest().isEmpty()) {
+                return this.getHarvest().get(0);
+            } else if (!this.getReturn().isEmpty()) {
+                return this.getReturn().get(0);
+            } else if (this.isOnTheWayBackToBase()) {
+                return moveToPosition(positionOfBase[0], positionOfBase[1]);
             } else {
+                return moveToPosition(closestRessource.getX(), closestRessource.getY());
+            }
+        } else if (amountOfBarracks < this.MAX_AMOUNT_OF_BARRACK) {
+            if (!(this.getProduce(UNIT_BARRACK).isEmpty())) {
+                return this.getProduce(UNIT_BARRACK).get(0);
+            }
+        } else {
 
-                int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
-                if (positionEnemy == null) {
-                    positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
-                }
-
-                int enemyX = positionEnemy[0];
-                int enemyY = positionEnemy[1];
-
-                if (!this.getAttack().isEmpty()) {
-                    return this.getAttack().get(0);
-                } else {
-                    return this.moveToPosition(enemyX, enemyY);
-                }
-
+            int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
+            if (positionEnemy == null) {
+                positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
             }
 
-            if (!(this.waitAction().isEmpty())) {
-                return this.waitAction().get(0);
+            int enemyX = positionEnemy[0];
+            int enemyY = positionEnemy[1];
+
+            if (!this.getAttack().isEmpty()) {
+                return this.getAttack().get(0);
+            } else {
+                return this.moveToPosition(enemyX, enemyY);
             }
+
         }
 
+        if (!(this.waitAction().isEmpty())) {
+            return this.waitAction().get(0);
+        }
 
         return null;
     }

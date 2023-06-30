@@ -16,49 +16,43 @@ public class Heavy extends BaseUnit {
 
 
     public UnitAction getNextUnitAction() {
-        Iterator<UnitAction> iter = this.actions.iterator();
-        UnitAction action = null;
 
-        while (iter.hasNext()) {
-            action = iter.next();
-            int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
-            if (positionEnemy == null) {
-                positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
+        int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
+        if (positionEnemy == null) {
+            positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
+        }
+        Random rand = new Random();
+        int takeX = rand.nextInt(2);
+        int enemyX = positionEnemy[0];
+        int enemyY = positionEnemy[1];
+
+        int[] freeDefensePosition = getEnemyUnitPosition(UNIT_BASE);
+        int gameHeight;
+        int gameWidth;
+
+        gameWidth = this.pgs.getWidth();
+        gameHeight = this.pgs.getHeight();
+        int n = (this.player == 0) ? 0 : gameWidth / 2;
+
+        for (int width = n; width < gameWidth; width = width + 2) {
+            int add = (this.player == 0) ? (gameHeight / 2) * -1 : gameHeight / 2;
+            int height = gameHeight - width - 1 + add;
+            if (this.unit.getX() == width && this.unit.getY() == height) {
+                return this.waitAction().get(0);
             }
-            Random rand = new Random();
-            int takeX = rand.nextInt(2);
-            int enemyX = positionEnemy[0];
-            int enemyY = positionEnemy[1];
+            if (this.pgs.getUnitAt(width, height) == null) {
 
-            int[] freeDefensePosition = getEnemyUnitPosition(UNIT_BASE);
-            int gameHeight;
-            int gameWidth;
-
-            gameWidth = this.pgs.getWidth();
-            gameHeight = this.pgs.getHeight();
-            int n = (this.player == 0) ? 0 : gameWidth / 2;
-
-            for (int width = n; width < gameWidth; width = width + 2) {
-                int add = (this.player == 0) ? (gameHeight / 2) * -1 : gameHeight / 2;
-                int height = gameHeight - width - 1 + add;
-                if (this.unit.getX() == width && this.unit.getY() == height) {
-                    return this.waitAction().get(0);
-                }
-                if (this.pgs.getUnitAt(width, height) == null) {
-
-                    freeDefensePosition[0] = width;
-                    freeDefensePosition[1] = height;
-                    break;
-                }
+                freeDefensePosition[0] = width;
+                freeDefensePosition[1] = height;
+                break;
             }
-
-            int defensePositionX = freeDefensePosition[0];
-            int defensePositionY = freeDefensePosition[1];
-
-            return this.moveToPosition(defensePositionX, defensePositionY);
         }
 
-        return new UnitAction(UnitAction.TYPE_NONE);
+        int defensePositionX = freeDefensePosition[0];
+        int defensePositionY = freeDefensePosition[1];
+
+        return this.moveToPosition(defensePositionX, defensePositionY);
+
     }
 
     private boolean isEnemyWithinBaseRadius() {
