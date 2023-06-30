@@ -97,4 +97,18 @@ public class BaseUnit extends MoveController {
         position[1] = Base.getY();
         return position;
     }
+
+    public int getAmountOfUnits(String unitName) {
+        List<Unit> allUnitsInGame = this.pgs.getUnits();
+        Iterator iter = allUnitsInGame.iterator();
+        int counter = 0;
+        Unit unit;
+        while (iter.hasNext()) {
+            unit = (Unit) iter.next();
+            if (unit.getPlayer() == this.player && unit.getType().name == unitName) {
+                counter++;
+            }
+        }
+        return counter;
+    }
 }

@@ -13,7 +13,7 @@ public class Base extends BaseUnit {
     public UnitAction getNextUnitAction() {
         Iterator iter = this.actions.iterator();
         UnitAction action = null;
-        int currentAmountOfWorkers = this.getAmountOfWorkers();
+        int currentAmountOfWorkers = this.getAmountOfUnits(UNIT_WORKER);
         int currentAmountOfWorkersInRessourceZone = this.getAmountOfWorkersInRessourceZone();
 
         if (MAXIMUM_WORKERS > currentAmountOfWorkers) {
@@ -46,20 +46,6 @@ public class Base extends BaseUnit {
             }
         }
         return action;
-    }
-
-    public int getAmountOfWorkers() {
-        List<Unit> allUnitsInGame = this.pgs.getUnits();
-        Iterator iter = allUnitsInGame.iterator();
-        int counter = 0;
-        Unit unit;
-        while (iter.hasNext()) {
-            unit = (Unit) iter.next();
-            if (unit.getPlayer() == this.player && unit.getType().name == UNIT_WORKER) {
-                counter++;
-            }
-        }
-        return counter;
     }
 
     public int getAmountOfWorkersInRessourceZone() {
