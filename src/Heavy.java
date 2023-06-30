@@ -31,11 +31,17 @@ public class Heavy extends BaseUnit {
             int enemyY = positionEnemy[1];
 
             int[] freeDefensePosition = getEnemyUnitPosition(UNIT_BASE);
-            int gameWidth = this.pgs.getWidth();
-            int gameHeight = this.pgs.getHeight();
+            int gameHeight;
+            int gameWidth;
 
-            for (int width = 0; width < gameWidth; width = width + 2) {
-                int height = gameHeight - width - 1;
+            gameWidth = this.pgs.getWidth();
+            gameHeight = this.pgs.getHeight();
+            int n = (this.player == 0) ? 0 : gameWidth / 2;
+
+            for (int width = n; width < gameWidth; width = width + 2) {
+                int add = (this.player == 0) ? (gameHeight / 2) * -1 : gameHeight / 2;
+                int height = gameHeight - width - 1 + add;
+                System.out.println(width + " " + height);
                 if (this.unit.getX() == width && this.unit.getY() == height) {
                     return this.waitAction().get(0);
                 }

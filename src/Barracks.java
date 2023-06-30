@@ -15,7 +15,8 @@ public class Barracks extends BaseUnit {
 
     public Barracks(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
-        MAX_HEAVY = pgs.getWidth() / 2;
+        int additionalUnit = (this.pgs.getWidth() % 2 == 0) ? 1 : 0;
+        MAX_HEAVY = pgs.getWidth() / 4 - additionalUnit;
     }
 
     //Generally just procuce light units
