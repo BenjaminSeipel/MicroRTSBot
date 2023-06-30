@@ -13,10 +13,10 @@ public class BaseUnit extends MoveController {
     public static final String UNIT_BARRACK = "Barracks";
     public static final String UNIT_WORKER = "Worker";
     public static final String UNIT_RESOURCE = "Resource";
-    int MAXIMUM_WORKERS = 10;
+    int MAXIMUM_WORKERS = 5;
     int MAXIMUM_WORKES_IN_RESSOURCE_ZONE = 2;
     int MAX_AMOUNT_OF_BARRACK = 1;
-    int MAX_AMOUNT_OF_HEAVY_UNITS = 2;
+    int MAX_AMOUNT_OF_HEAVY_UNITS;
 
 
     public BaseUnit(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {

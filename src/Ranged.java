@@ -21,7 +21,6 @@ public class Ranged extends BaseUnit {
             if (positionEnemy == null) {
                 positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
             }
-
             int enemyX = positionEnemy[0];
             int enemyY = positionEnemy[1];
 

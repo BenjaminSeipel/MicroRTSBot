@@ -11,12 +11,11 @@ import java.util.Random;
 public class Barracks extends BaseUnit {
 
     private static String lastUnitProduced = null;
-    private int MAX_HEAVYS;
 
     public Barracks(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
-        int needsAdditionalUnit = (this.pgs.getWidth() % 2 == 0) ? 0 : -1;
-        MAX_HEAVYS = this.pgs.getWidth() / 4 + needsAdditionalUnit;
+        int needsAdditionalUnit = (this.pgs.getWidth() % 2 == 0) ? -1 : 0;
+        MAX_AMOUNT_OF_HEAVY_UNITS = this.pgs.getWidth() / 4 + needsAdditionalUnit;
     }
 
     //Generally just produce light units
@@ -44,12 +43,11 @@ public class Barracks extends BaseUnit {
         }
     }
 
-    //Produce only heavy units for now, maybe produce to a maximum cap of heavy units?
     public String getNextUnitToProduce() {
         Random random = new Random();
         int randomInt = random.nextInt(6);
 
-        if (getAmountOfUnits(UNIT_HEAVY) < MAX_HEAVYS) {
+        if (getAmountOfUnits(UNIT_HEAVY) < MAX_AMOUNT_OF_HEAVY_UNITS) {
             if (randomInt < 2) {
                 lastUnitProduced = UNIT_LIGHT;
                 return UNIT_LIGHT;
@@ -69,18 +67,6 @@ public class Barracks extends BaseUnit {
                 return UNIT_RANGED;
             }
         }
-/*
-        if(randomInt == 0){
-            lastUnitProduced = UNIT_HEAVY;
-            return UNIT_HEAVY;
-        }else if(randomInt == 1){
-            lastUnitProduced = UNIT_LIGHT;
-            return UNIT_LIGHT;
-        }else{
-            lastUnitProduced = UNIT_RANGED;
-            return UNIT_RANGED;
-        }
- */
     }
 
 }

@@ -95,6 +95,7 @@ public class Predator extends AIWithComputationBudget {
 
                     pa.getResourceUsage().merge(r2);
                     pa.addUnitAction(selectedUnit, unitAction);
+                    break;
                 }
             }
 

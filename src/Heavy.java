@@ -41,7 +41,6 @@ public class Heavy extends BaseUnit {
             for (int width = n; width < gameWidth; width = width + 2) {
                 int add = (this.player == 0) ? (gameHeight / 2) * -1 : gameHeight / 2;
                 int height = gameHeight - width - 1 + add;
-                System.out.println(width + " " + height);
                 if (this.unit.getX() == width && this.unit.getY() == height) {
                     return this.waitAction().get(0);
                 }
