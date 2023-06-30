@@ -16,16 +16,9 @@ public class Heavy extends BaseUnit {
 
 
     public UnitAction getNextUnitAction() {
-
-        int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
-        if (positionEnemy == null) {
-            positionEnemy = getEnemyUnitPosition(UNIT_WORKER);
+        if (isBaseDown()) {
+            return attackEnemy();
         }
-        Random rand = new Random();
-        int takeX = rand.nextInt(2);
-        int enemyX = positionEnemy[0];
-        int enemyY = positionEnemy[1];
-
         int[] freeDefensePosition = getEnemyUnitPosition(UNIT_BASE);
         int gameHeight;
         int gameWidth;
@@ -55,43 +48,8 @@ public class Heavy extends BaseUnit {
 
     }
 
-    private boolean isEnemyWithinBaseRadius() {
-        int[] basePosition = getUnitPosition(UNIT_BASE);
-        System.out.println("Base Position: " + basePosition[0] + ", " + basePosition[1] + "\n");
-        int baseX = basePosition[0];
-        int baseY = basePosition[1];
-
-        List<Unit> units = this.pgs.getUnits();
-        for (Unit unit : units) {
-            if (unit.getPlayer() != this.player) {
-                int unitX = unit.getX();
-                int unitY = unit.getY();
-                if (unitX >= baseX - MAX_RADIUS && unitX <= baseX + MAX_RADIUS && unitY >= baseY - MAX_RADIUS && unitY <= baseY + MAX_RADIUS) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
-    private int[] getClosestEnemyWithinProtectionArea() {
-        int[] basePosition = getUnitPosition(UNIT_BASE);
-        System.out.println("Base Position: " + basePosition[0] + ", " + basePosition[1] + "\n");
-        int baseX = basePosition[0];
-        int baseY = basePosition[1];
-
-        List<Unit> units = this.pgs.getUnits();
-        for (Unit unit : units) {
-            if (unit.getPlayer() != this.player) {
-                int unitX = unit.getX();
-                int unitY = unit.getY();
-                if (unitX >= baseX - MAX_RADIUS && unitX <= baseX + MAX_RADIUS && unitY >= baseY - MAX_RADIUS && unitY <= baseY + MAX_RADIUS) {
-                    return new int[]{unitX, unitY};
-                }
-            }
-        }
-        return null;
+    public boolean isBaseDown() {
+        return this.getAmountOfUnits(UNIT_BASE) == 0;
     }
 
 }

@@ -2,15 +2,12 @@ import rts.PhysicalGameState;
 import rts.ResourceUsage;
 import rts.UnitAction;
 import rts.units.Unit;
-import rts.units.UnitTypeTable;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 public class Barracks extends BaseUnit {
-
-    private static String lastUnitProduced = null;
 
     public Barracks(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
@@ -49,21 +46,16 @@ public class Barracks extends BaseUnit {
 
         if (getAmountOfUnits(UNIT_HEAVY) < MAX_AMOUNT_OF_HEAVY_UNITS) {
             if (randomInt < 3) {
-                lastUnitProduced = UNIT_LIGHT;
                 return UNIT_LIGHT;
             } else if (randomInt == 5) {
-                lastUnitProduced = UNIT_RANGED;
                 return UNIT_RANGED;
             } else {
-                lastUnitProduced = UNIT_HEAVY;
                 return UNIT_HEAVY;
             }
         } else {
             if (randomInt < 3) {
-                lastUnitProduced = UNIT_LIGHT;
                 return UNIT_LIGHT;
             } else {
-                lastUnitProduced = UNIT_RANGED;
                 return UNIT_RANGED;
             }
         }
