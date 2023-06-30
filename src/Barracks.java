@@ -11,9 +11,12 @@ import java.util.Random;
 public class Barracks extends BaseUnit {
 
     private static String lastUnitProduced = null;
+    private int MAX_HEAVYS;
 
     public Barracks(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
+        int needsAdditionalUnit = (this.pgs.getWidth() % 2 == 0) ? 0 : -1;
+        MAX_HEAVYS = this.pgs.getWidth() / 4 + needsAdditionalUnit;
     }
 
     //Generally just produce light units
@@ -43,22 +46,14 @@ public class Barracks extends BaseUnit {
 
     //Produce only heavy units for now, maybe produce to a maximum cap of heavy units?
     public String getNextUnitToProduce() {
-        //return UNIT_HEAVY;
-        //calc amount of heavies needed to build diagonal line
-        int maxAmountOfHeavy;
-        if(this.pgs.getHeight() <= 16) {
-            maxAmountOfHeavy = this.pgs.getHeight() / 2;
-        } else {
-            maxAmountOfHeavy = (this.pgs.getHeight() / 3) + 1;
-        }
         Random random = new Random();
         int randomInt = random.nextInt(6);
 
-        if(getAmountOfHeavies() < maxAmountOfHeavy) {
-            if(randomInt < 2) {
+        if (getAmountOfUnits(UNIT_HEAVY) < MAX_HEAVYS) {
+            if (randomInt < 2) {
                 lastUnitProduced = UNIT_LIGHT;
                 return UNIT_LIGHT;
-            } else if(randomInt == 2) {
+            } else if (randomInt == 2) {
                 lastUnitProduced = UNIT_RANGED;
                 return UNIT_RANGED;
             } else {
@@ -66,7 +61,7 @@ public class Barracks extends BaseUnit {
                 return UNIT_HEAVY;
             }
         } else {
-            if(randomInt < 3) {
+            if (randomInt < 3) {
                 lastUnitProduced = UNIT_LIGHT;
                 return UNIT_LIGHT;
             } else {
@@ -86,20 +81,6 @@ public class Barracks extends BaseUnit {
             return UNIT_RANGED;
         }
  */
-    }
-
-    public int getAmountOfHeavies() {
-        List<Unit> allUnitsInGame = this.pgs.getUnits();
-        Iterator iter = allUnitsInGame.iterator();
-        int counter = 0;
-        Unit unit;
-        while (iter.hasNext()) {
-            unit = (Unit) iter.next();
-            if (unit.getPlayer() == this.player && unit.getType().name == UNIT_HEAVY) {
-                counter++;
-            }
-        }
-        return counter;
     }
 
 }
