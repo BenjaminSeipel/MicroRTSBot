@@ -2,13 +2,9 @@ import rts.PhysicalGameState;
 import rts.UnitAction;
 import rts.units.Unit;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public class Heavy extends BaseUnit {
-
-    final int MAX_RADIUS = 10;
 
     public Heavy(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
