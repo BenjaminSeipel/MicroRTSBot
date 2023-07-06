@@ -5,6 +5,9 @@ import rts.units.Unit;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Calss for share functionallity of the units (e.g amountOfenemyUnits, etc.)
+ */
 public class BaseUnit extends MoveController {
     public static final String UNIT_HEAVY = "Heavy";
     public static final String UNIT_LIGHT = "Light";
@@ -18,38 +21,39 @@ public class BaseUnit extends MoveController {
     int MAX_AMOUNT_OF_BARRACK = 1;
     int MAX_AMOUNT_OF_HEAVY_UNITS;
 
-
+    /**
+     * @param unit
+     * @param actions
+     * @param pgs
+     * @param player
+     */
     public BaseUnit(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
     }
 
-
-    int[] getEnemyNextToMe() {
-        List<Unit> units = this.pgs.getUnits();
-        for (Unit unit : units) {
-            if (unit.getPlayer() != this.player) {
-                int unitX = unit.getX();
-                int unitY = unit.getY();
-                if (unitX == this.unit.getX() && unitY == this.unit.getY()) {
-                    return new int[]{unitX, unitY};
-                }
-            }
-        }
-        return null;
-    }
-
+    /**
+     * @return attack actions or null if there is no attack action
+     */
     public List<UnitAction> getAttack() {
         return (this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_ATTACK_LOCATION))
                 .toList());
     }
 
+    /**
+     * @param unitName - name of the Unit type that should be produced
+     * @return produce actions or null if there are none
+     */
     public List<UnitAction> getProduce(String unitName) {
         return this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_PRODUCE && action.getUnitType().name == unitName))
                 .toList();
     }
 
+    /**
+     * @param unitName - name of the unit type
+     * @return array with enemy unit position ([0: x, 1: y])
+     */
     public int[] getEnemyUnitPosition(String unitName) {
         List<Unit> units = this.pgs.getUnits();
         Unit Base = null;
@@ -74,6 +78,10 @@ public class BaseUnit extends MoveController {
         return position;
     }
 
+    /**
+     * @param unitName - name of the unit type
+     * @return array with unit position of this bot ([0: x, 1: y])
+     */
     public int[] getUnitPosition(String unitName) {
         List<Unit> units = this.pgs.getUnits();
         Unit Base = null;
@@ -98,6 +106,10 @@ public class BaseUnit extends MoveController {
         return position;
     }
 
+    /**
+     * @param unitName - name of the unit type
+     * @return amount of the unit type for this bot
+     */
     public int getAmountOfUnits(String unitName) {
         List<Unit> allUnitsInGame = this.pgs.getUnits();
         Iterator iter = allUnitsInGame.iterator();
@@ -112,6 +124,11 @@ public class BaseUnit extends MoveController {
         return counter;
     }
 
+    /**
+     * Enemy will be attacked in a specific order. Units first will move to the enemy and then attack him.
+     *
+     * @return move, attack or wait unit action, depending on the state of the game.
+     */
     public UnitAction attackEnemy() {
         int[] positionEnemy = getEnemyUnitPosition(UNIT_BASE);
         if (positionEnemy == null) {

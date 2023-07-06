@@ -4,13 +4,24 @@ import rts.units.Unit;
 
 import java.util.List;
 
+/**
+ * Heavy class to determin action for the heavy units
+ */
 public class Heavy extends BaseUnit {
 
+    /**
+     * @param unit
+     * @param actions
+     * @param pgs
+     * @param player
+     */
     public Heavy(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
     }
 
-
+    /**
+     * @return the next UnitAction the unit should execute
+     */
     public UnitAction getNextUnitAction() {
         if (isBaseDown()) {
             return attackEnemy();
@@ -44,6 +55,9 @@ public class Heavy extends BaseUnit {
 
     }
 
+    /**
+     * @return true if the base of the bot is destroyed
+     */
     public boolean isBaseDown() {
         return this.getAmountOfUnits(UNIT_BASE) == 0;
     }

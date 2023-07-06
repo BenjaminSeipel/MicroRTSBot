@@ -5,11 +5,23 @@ import rts.units.Unit;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Base class to determine action for the base units
+ */
 public class Base extends BaseUnit {
+    /**
+     * @param unit
+     * @param actions
+     * @param pgs
+     * @param player
+     */
     public Base(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
     }
 
+    /**
+     * @return the next UnitAction the unit should execute
+     */
     public UnitAction getNextUnitAction() {
         Iterator iter = this.actions.iterator();
         UnitAction action = null;
@@ -48,6 +60,9 @@ public class Base extends BaseUnit {
         return action;
     }
 
+    /**
+     * @return the ammount of workers outside the ressource zone
+     */
     public int getAmountOfWorkersInRessourceZone() {
         List<Unit> allUnitsInGame = this.pgs.getUnits();
         Iterator iter = allUnitsInGame.iterator();
@@ -63,6 +78,9 @@ public class Base extends BaseUnit {
         return counter;
     }
 
+    /**
+     * @return produce Worker unit action (outside the ressource zone) or null
+     */
     public List<UnitAction> getProduceOutsideOfResourceZone() {
 
         return (this.actions.stream()

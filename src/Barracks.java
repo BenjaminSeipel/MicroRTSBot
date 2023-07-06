@@ -7,15 +7,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Barracks class to determine action for the barrack units
+ */
 public class Barracks extends BaseUnit {
-
+    /**
+     * @param unit
+     * @param actions
+     * @param pgs
+     * @param player
+     */
     public Barracks(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
         int needsAdditionalUnit = (this.pgs.getWidth() % 2 == 0) ? -1 : 0;
         MAX_AMOUNT_OF_HEAVY_UNITS = this.pgs.getWidth() / 4 + needsAdditionalUnit;
     }
 
-    //Generally just produce light units
+
+    /**
+     * @return the next UnitAction the unit should execute
+     */
     public UnitAction getNextUnitAction() {
         Iterator<UnitAction> iter = this.actions.iterator();
         UnitAction action = null;
@@ -40,6 +51,9 @@ public class Barracks extends BaseUnit {
         }
     }
 
+    /**
+     * @return name of the Unit that the barrack should produce next
+     */
     public String getNextUnitToProduce() {
         Random random = new Random();
         int randomInt = random.nextInt(6);

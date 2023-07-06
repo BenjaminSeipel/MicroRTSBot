@@ -10,6 +10,9 @@ import util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main class for the bot, necessary for the contest
+ */
 public class Predator extends AIWithComputationBudget {
 
     UnitTypeTable m_utt;

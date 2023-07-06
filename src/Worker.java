@@ -2,16 +2,26 @@ import rts.PhysicalGameState;
 import rts.UnitAction;
 import rts.units.Unit;
 
-import java.util.Random;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Worker class to determine action for the worker units
+ */
 public class Worker extends BaseUnit {
-
+    /**
+     * @param unit
+     * @param actions
+     * @param pgs
+     * @param player
+     */
     public Worker(Unit unit, List<UnitAction> actions, PhysicalGameState pgs, int player) {
         super(unit, actions, pgs, player);
     }
 
+    /**
+     * @return the next UnitAction the unit should execute
+     */
     public UnitAction getNextUnitAction() {
         int[] positionOfBase = getUnitPosition(UNIT_BASE);
         int amountOfBarracks = this.getAmountOfBarracks();
@@ -56,6 +66,9 @@ public class Worker extends BaseUnit {
         return null;
     }
 
+    /**
+     * @return amount of barracks
+     */
     public int getAmountOfBarracks() {
         List<Unit> allUnitsInGame = this.pgs.getUnits();
         Iterator iter = allUnitsInGame.iterator();
@@ -70,6 +83,9 @@ public class Worker extends BaseUnit {
         return counter;
     }
 
+    /**
+     * @return true if the unit is in a rectangle between base and resource
+     */
     public boolean isUnitInRessurceZone() {
         int[] positionOfBase = this.getUnitPosition(UNIT_BASE);
         Unit closestResource = this.getClosestRessource();
@@ -86,6 +102,9 @@ public class Worker extends BaseUnit {
         return false;
     }
 
+    /**
+     * @return the closest resource object
+     */
     public Unit getClosestRessource() {
         int[] positionOfBase = this.getUnitPosition(UNIT_BASE);
         Unit unit = null;
@@ -123,18 +142,27 @@ public class Worker extends BaseUnit {
         return unit;
     }
 
+    /**
+     * @return harvest UnitAction or null
+     */
     public List<UnitAction> getHarvest() {
         return (this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_HARVEST))
                 .toList());
     }
 
+    /**
+     * @return return UnitAction or null
+     */
     public List<UnitAction> getReturn() {
         return (this.actions.stream()
                 .filter(action -> (action.getType() == UnitAction.TYPE_RETURN))
                 .toList());
     }
 
+    /**
+     * @return true if the collected a ressource
+     */
     public boolean isOnTheWayBackToBase() {
         return this.unit.getResources() == 1;
     }
