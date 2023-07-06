@@ -24,7 +24,7 @@ public class Worker extends BaseUnit {
      */
     public UnitAction getNextUnitAction() {
         int[] positionOfBase = getUnitPosition(UNIT_BASE);
-        int amountOfBarracks = this.getAmountOfBarracks();
+        int amountOfBarracks = this.getAmountOfUnits(UNIT_BARRACK);
 
         if (this.isUnitInRessurceZone()) {
             Unit closestRessource = this.getClosestRessource();
@@ -65,24 +65,7 @@ public class Worker extends BaseUnit {
 
         return null;
     }
-
-    /**
-     * @return amount of barracks
-     */
-    public int getAmountOfBarracks() {
-        List<Unit> allUnitsInGame = this.pgs.getUnits();
-        Iterator iter = allUnitsInGame.iterator();
-        int counter = 0;
-        Unit unit;
-        while (iter.hasNext()) {
-            unit = (Unit) iter.next();
-            if (unit.getPlayer() == this.player && unit.getType().name == UNIT_BARRACK) {
-                counter++;
-            }
-        }
-        return counter;
-    }
-
+    
     /**
      * @return true if the unit is in a rectangle between base and resource
      */
